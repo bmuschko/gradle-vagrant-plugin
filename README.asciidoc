@@ -1,7 +1,7 @@
 Gradle Vagrant plugin
-========================
+=====================
 
-image:http://www.hashicorp.com/images/blog/a-new-look-for-vagrant/logo_wide-cab47086.png[scaledwidth="50%",alt="Vagrant Logo"]
+image:http://www.hashicorp.com/images/blog/a-new-look-for-vagrant/logo_wide-cab47086.png[Vagrant Logo]
 
 Gradle plugin for managing link:http://www.vagrantup.com/[Vagrant] boxes.
 
