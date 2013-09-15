@@ -1,0 +1,73 @@
+Gradle Vagrant plugin
+========================
+
+image:http://www.hashicorp.com/images/blog/a-new-look-for-vagrant/logo_wide-cab47086.png[scaledwidth="50%",alt="Vagrant Logo"]
+
+Gradle plugin for managing link:http://www.vagrantup.com/[Vagrant] boxes.
+
+== Usage
+
+To use the plugin, include in your build script:
+
+[source,groovy]
+----
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.1'
+    }
+}
+
+apply plugin: 'vagrant'
+----
+
+== Tasks
+
+The plugin defines the following tasks:
+
+[options="header"]
+|=======
+|Task name           |Depends on |Type          |Description
+|`vagrantDestroy`    |-          |Vagrant       |Stops the running machine Vagrant is managing and destroys all resources.
+|`vagrantHalt`       |-          |Vagrant       |Runs remote SSH command in Vagrant box.
+|`vagrantReload`     |-          |Vagrant       |Shuts down the running machine Vagrant is managing.
+|`vagrantResume`     |-          |Vagrant       |The equivalent of running a halt followed by an up.
+|`vagrantSshConfig`  |-          |Vagrant       |Outputs the valid configuration for an SSH config file to SSH.
+|`vagrantStatus`     |-          |Vagrant       |Outputs the state of the machines Vagrant is managing.
+|`vagrantSuspend`    |-          |Vagrant       |Suspends the guest machine Vagrant is managing.
+|`vagrantUp`         |-          |Vagrant       |Creates and configures guest machines according to your Vagrantfile.
+|=======
+
+
+== Extension properties
+
+The plugin defines the following extension properties in the `vagrant` closure:
+
+[options="header"]
+|=======
+|Property name |Type                                            |Default value                                     |Description
+|`boxDir`      |File                                            |-                                                 |The directory the targeted Vagrant box resides in.
+|=======
+
+
+=== Example
+
+[source,groovy]
+----
+vagrant {
+    boxDir = file('~/dev/my-vagrant-box')
+}
+
+import org.gradle.api.plugins.vagrant.VagrantSsh
+
+task vagrantEcho(type: VagrantSsh) {
+    description = 'Runs remote SSH command in Vagrant box.'
+    sshCommand = "echo 'hello'"
+
+    dependsOn vagrantUp
+    finalizedBy vagrantDestroy
+}
+----
