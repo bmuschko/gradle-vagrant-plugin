@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant
+package org.gradle.api.plugins.vagrant.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.plugins.vagrant.internal.ExternalProcessExecutionResult
+import org.gradle.api.plugins.vagrant.internal.ExternalProcessExecutor
+import org.gradle.api.plugins.vagrant.internal.GDKExternalProcessExecutor
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 class Vagrant extends DefaultTask {
     static final String TASK_GROUP = 'Vagrant'
-    static final String VAGRANT_EXECUTABLE = 'vagrant'
+    static final String EXECUTABLE = 'vagrant'
 
     /**
      * The Vagrant command to run.
@@ -36,39 +39,24 @@ class Vagrant extends DefaultTask {
     @Input
     File boxDir
 
+    ExternalProcessExecutor processExecutor
+
     Vagrant() {
         group = TASK_GROUP
+        processExecutor = new GDKExternalProcessExecutor(System.out, System.err)
     }
 
     @TaskAction
-    void start() {
-        checkIfVagrantIsInstalled()
-        runCommand()
-    }
-
-    private void checkIfVagrantIsInstalled() {
-        def process = "$VAGRANT_EXECUTABLE -v".execute()
-        process.waitFor()
-
-        if(process.exitValue() != 0) {
-            throw new GradleException("Vagrant could not be detected. Please install!")
-        }
-
-        logger.info "Using ${process.text.trim()}."
-    }
-
     void runCommand() {
         List<String> vagrantCommands = getCommands()
-        vagrantCommands.add(0, VAGRANT_EXECUTABLE)
+        vagrantCommands.add(0, EXECUTABLE)
         vagrantCommands.addAll(getOptions())
         logger.info "Executing Vagrant command: '${vagrantCommands.join(' ')}'"
 
-        def process = vagrantCommands.execute(null, getBoxDir())
-        process.consumeProcessOutput(System.out, System.err)
-        process.waitFor()
+        ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, null, getBoxDir())
 
-        if(process.exitValue() != 0) {
-            throw new GradleException("Failed to run the Vagrant command.")
+        if(!result.isOK()) {
+            throw new GradleException('Failed to execute the Vagrant command.')
         }
     }
 

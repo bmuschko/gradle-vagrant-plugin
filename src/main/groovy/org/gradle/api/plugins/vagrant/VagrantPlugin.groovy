@@ -17,14 +17,37 @@ package org.gradle.api.plugins.vagrant
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.execution.TaskExecutionGraph
+import org.gradle.api.plugins.vagrant.internal.PrerequisitesValidator
+import org.gradle.api.plugins.vagrant.internal.VagrantInstallationValidator
+import org.gradle.api.plugins.vagrant.tasks.Vagrant
 
 class VagrantPlugin implements Plugin<Project> {
     static final String EXTENSION_NAME = 'vagrant'
 
+    PrerequisitesValidator externalProgramValidator
+
+    VagrantPlugin() {
+        this.externalProgramValidator = new VagrantInstallationValidator()
+    }
+
     @Override
     void apply(Project project) {
         project.extensions.create(EXTENSION_NAME, VagrantExtension)
+        validateVagrantInstallation(project)
         addTasks(project)
+    }
+
+    private void validateVagrantInstallation(Project project) {
+        project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
+            if(containsVagrantTask(taskGraph)) {
+                externalProgramValidator.validate()
+            }
+        }
+    }
+
+    private boolean containsVagrantTask(TaskExecutionGraph taskGraph) {
+        taskGraph.allTasks.findAll { task -> task instanceof Vagrant }.size() > 0
     }
 
     private void addTasks(Project project) {
