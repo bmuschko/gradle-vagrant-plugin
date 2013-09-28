@@ -13,8 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.internal
+package org.gradle.api.plugins.vagrant.process
 
-interface PrerequisitesValidator {
-    void validate()
+enum ExternalProgram {
+    VIRTUALBOX('VirtualBox', 'virtualbox'), VAGRANT('Vagrant', 'vagrant')
+
+    private final String name
+    private final String executable
+
+    ExternalProgram(String name, String executable) {
+        this.name = name
+        this.executable = executable
+    }
+
+    String getName() {
+        name
+    }
+
+    String getExecutable() {
+        executable
+    }
 }

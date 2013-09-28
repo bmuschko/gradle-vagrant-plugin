@@ -17,15 +17,15 @@ package org.gradle.api.plugins.vagrant.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.plugins.vagrant.internal.ExternalProcessExecutionResult
-import org.gradle.api.plugins.vagrant.internal.ExternalProcessExecutor
-import org.gradle.api.plugins.vagrant.internal.GDKExternalProcessExecutor
+import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutionResult
+import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutor
+import org.gradle.api.plugins.vagrant.process.ExternalProgram
+import org.gradle.api.plugins.vagrant.process.GDKExternalProcessExecutor
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 class Vagrant extends DefaultTask {
     static final String TASK_GROUP = 'Vagrant'
-    static final String EXECUTABLE = 'vagrant'
 
     /**
      * The Vagrant command to run.
@@ -49,10 +49,10 @@ class Vagrant extends DefaultTask {
     @TaskAction
     void runCommand() {
         List<String> vagrantCommands = getCommands()
-        vagrantCommands.add(0, EXECUTABLE)
+        vagrantCommands.add(0, ExternalProgram.VAGRANT.executable)
         vagrantCommands.addAll(getOptions())
-        logger.info "Executing Vagrant command: '${vagrantCommands.join(' ')}'"
 
+        logger.info "Executing Vagrant command: '${vagrantCommands.join(' ')}'"
         ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, null, getBoxDir())
 
         if(!result.isOK()) {

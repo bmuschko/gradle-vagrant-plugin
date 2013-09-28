@@ -13,23 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.tasks
+package org.gradle.api.plugins.vagrant.validation
 
-import org.gradle.api.tasks.Input
-
-class VagrantSsh extends Vagrant {
-    /**
-     * The remote SSH to execute.
-     */
-    @Input
-    String sshCommand
-
-    List<String> getCommands() {
-        ['ssh']
-    }
-
-    @Override
-    List<String> getOptions() {
-        ['-c', getSshCommand()]
-    }
+interface PrerequisitesValidator {
+    PrerequisitesValidationResult validate()
 }

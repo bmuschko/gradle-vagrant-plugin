@@ -20,4 +20,9 @@ class VagrantExtension {
      * The directory of the Vagrant box.
      */
     File boxDir
+
+    /**
+     * The backend provider.
+     */
+    String provider
 }

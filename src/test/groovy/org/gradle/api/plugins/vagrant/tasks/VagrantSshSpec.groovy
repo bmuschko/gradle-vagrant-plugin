@@ -23,7 +23,7 @@ import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutor
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class VagrantSpec extends Specification {
+class VagrantSshSpec extends Specification {
     static final TASK_NAME = 'someVagrantTask'
     Project project
     ExternalProcessExecutor mockExternalProcessExecutor
@@ -37,8 +37,8 @@ class VagrantSpec extends Specification {
         expect:
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 1, text: 'failure')
         when:
-            Task task = project.task(TASK_NAME, type: Vagrant) {
-                commands = ['box', 'list']
+            Task task = project.task(TASK_NAME, type: VagrantSsh) {
+                sshCommand = "echo 'hello world'"
                 boxDir = project.file('mybox')
             }
 
@@ -47,7 +47,7 @@ class VagrantSpec extends Specification {
         then:
             project.tasks.findByName(TASK_NAME) != null
             project.tasks.findByName(TASK_NAME).group == Vagrant.TASK_GROUP
-            1 * mockExternalProcessExecutor.execute(['vagrant', 'box', 'list'], null, project.file('mybox')) >> result
+            1 * mockExternalProcessExecutor.execute(['vagrant', 'ssh', '-c', "echo 'hello world'"], null, project.file('mybox')) >> result
             !result.isOK()
             Throwable t = thrown(GradleException)
             t.message == 'Failed to execute the Vagrant command.'
@@ -57,8 +57,8 @@ class VagrantSpec extends Specification {
         expect:
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 0, text: 'success')
         when:
-            Task task = project.task(TASK_NAME, type: Vagrant) {
-                commands = ['box', 'list']
+            Task task = project.task(TASK_NAME, type: VagrantSsh) {
+                sshCommand = "echo 'hello world'"
                 boxDir = project.file('mybox')
             }
 
@@ -67,7 +67,7 @@ class VagrantSpec extends Specification {
         then:
             project.tasks.findByName(TASK_NAME) != null
             project.tasks.findByName(TASK_NAME).group == Vagrant.TASK_GROUP
-            1 * mockExternalProcessExecutor.execute(['vagrant', 'box', 'list'], null, project.file('mybox')) >> result
+            1 * mockExternalProcessExecutor.execute(['vagrant', 'ssh', '-c', "echo 'hello world'"], null, project.file('mybox')) >> result
             result.isOK()
     }
 }

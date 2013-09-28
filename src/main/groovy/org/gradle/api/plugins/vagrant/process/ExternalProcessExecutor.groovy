@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.internal
+package org.gradle.api.plugins.vagrant.process
 
 interface ExternalProcessExecutor {
-    ExternalProcessExecutionResult execute(List<String> commands)
-    ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir)
+    ExternalProcessExecutionResult execute(List<String> commands) throws IOException
+    ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir) throws IOException
 }

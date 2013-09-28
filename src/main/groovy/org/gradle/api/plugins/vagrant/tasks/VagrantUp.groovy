@@ -16,20 +16,18 @@
 package org.gradle.api.plugins.vagrant.tasks
 
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 
-class VagrantSsh extends Vagrant {
+class VagrantUp extends Vagrant {
     /**
-     * The remote SSH to execute.
+     * The backend provider. Defaults to VirtualBox.
      */
     @Input
-    String sshCommand
-
-    List<String> getCommands() {
-        ['ssh']
-    }
+    @Optional
+    String provider
 
     @Override
     List<String> getOptions() {
-        ['-c', getSshCommand()]
+        getProvider() ? ["--provider=${getProvider()}"] : []
     }
 }

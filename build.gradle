@@ -14,7 +14,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'bintray'
 
 group = 'org.gradle.api.plugins'
-version = '0.1'
+version = '0.2'
 
 repositories {
     mavenCentral()
@@ -97,7 +97,7 @@ publishing {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.7'
+    gradleVersion = '1.8'
 }
 
 bintray {
@@ -109,15 +109,5 @@ bintray {
         repo = 'gradle-plugins'
         name = 'gradle-vagrant-plugin'
         licenses = ['Apache-2.0']
-    }
-}
-
-apply plugin: 'maven'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "file://$projectDir/../repo")
-        }
     }
 }

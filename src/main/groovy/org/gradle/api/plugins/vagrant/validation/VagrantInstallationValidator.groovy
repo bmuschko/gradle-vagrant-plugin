@@ -13,23 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.tasks
+package org.gradle.api.plugins.vagrant.validation
 
-import org.gradle.api.tasks.Input
+import groovy.util.logging.Slf4j
+import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutionResult
+import org.gradle.api.plugins.vagrant.process.ExternalProgram
 
-class VagrantSsh extends Vagrant {
-    /**
-     * The remote SSH to execute.
-     */
-    @Input
-    String sshCommand
-
-    List<String> getCommands() {
-        ['ssh']
+@Slf4j
+class VagrantInstallationValidator extends AbstractInstallationValidator {
+    @Override
+    ExternalProgram getExternalProgram() {
+        ExternalProgram.VAGRANT
     }
 
     @Override
-    List<String> getOptions() {
-        ['-c', getSshCommand()]
+    List<String> getExecutableOptions() {
+        ['-v']
+    }
+
+    @Override
+    void handleResult(ExternalProcessExecutionResult result) {
+        if(result.isOK()) {
+            log.info "Using ${result.text.trim()}."
+        }
     }
 }

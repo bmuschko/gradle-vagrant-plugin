@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.internal
+package org.gradle.api.plugins.vagrant.process
 
 class ExternalProcessExecutionResult {
+    static final int OK_EXIT_VALUE = 0
+
     Integer exitValue
     String text
 
     boolean isOK() {
-        exitValue == 0
+        exitValue == OK_EXIT_VALUE
     }
 }

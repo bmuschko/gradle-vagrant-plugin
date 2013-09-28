@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.api.plugins.vagrant.internal
+package org.gradle.api.plugins.vagrant.process
 
 class GDKExternalProcessExecutor implements ExternalProcessExecutor {
     private final OutputStream output
@@ -27,13 +27,13 @@ class GDKExternalProcessExecutor implements ExternalProcessExecutor {
     }
 
     @Override
-    ExternalProcessExecutionResult execute(List<String> commands) {
+    ExternalProcessExecutionResult execute(List<String> commands) throws IOException {
         Process process = commands.execute()
         handleProcess(process)
     }
 
     @Override
-    ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir) {
+    ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir) throws IOException {
         Process process = commands.execute(envp, dir)
         handleProcess(process)
     }
