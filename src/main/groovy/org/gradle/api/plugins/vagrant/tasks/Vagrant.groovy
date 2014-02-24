@@ -49,7 +49,7 @@ class Vagrant extends DefaultTask {
     @TaskAction
     void runCommand() {
         List<String> vagrantCommands = getCommands()
-        vagrantCommands.add(0, ExternalProgram.VAGRANT.executable)
+        vagrantCommands.addAll(0, ExternalProgram.VAGRANT.commandLineArgs)
         vagrantCommands.addAll(getOptions())
 
         logger.info "Executing Vagrant command: '${vagrantCommands.join(' ')}'"

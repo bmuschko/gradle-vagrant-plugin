@@ -33,4 +33,19 @@ enum ExternalProgram {
     String getExecutable() {
         executable
     }
+
+    List<String> getCommandLineArgs() {
+        def commandLineArgs = []
+
+        if(isOSWindows()) {
+            commandLineArgs << 'cmd'
+            commandLineArgs << '/c'
+        }
+
+        [executable]
+    }
+
+    private boolean isOSWindows() {
+        System.properties['os.name'].toLowerCase().contains('windows')
+    }
 }

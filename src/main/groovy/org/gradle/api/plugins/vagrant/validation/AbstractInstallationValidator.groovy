@@ -31,7 +31,7 @@ abstract class AbstractInstallationValidator implements PrerequisitesValidator {
     @Override
     PrerequisitesValidationResult validate() {
         ExternalProgram externalProgram = getExternalProgram()
-        List<String> commands = [externalProgram.executable]
+        List<String> commands = externalProgram.commandLineArgs
         commands.addAll(getExecutableOptions())
 
         try {
