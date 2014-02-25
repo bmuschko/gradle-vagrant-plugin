@@ -42,7 +42,8 @@ enum ExternalProgram {
             commandLineArgs << '/c'
         }
 
-        [executable]
+        commandLineArgs << executable
+        commandLineArgs
     }
 
     private boolean isOSWindows() {
