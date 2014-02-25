@@ -79,7 +79,8 @@ class VagrantPlugin implements Plugin<Project> {
     }
 
     private File getBoxDir(Project project) {
-        project.hasProperty('boxDir') ? project.file(project.boxDir) : project.extensions.findByName(EXTENSION_NAME).boxDir
+        String boxDir = project.hasProperty('boxDir') ? project.file(project.boxDir) : project.extensions.findByName(EXTENSION_NAME).boxDir
+        boxDir ?: project.projectDir
     }
 
     private String getProvider(Project project) {
