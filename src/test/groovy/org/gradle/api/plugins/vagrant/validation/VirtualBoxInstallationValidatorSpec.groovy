@@ -35,7 +35,7 @@ class VirtualBoxInstallationValidatorSpec extends Specification {
         when:
             virtualBoxInstallationValidator.validate()
         then:
-            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-h']) >> { throw new IOException("something is wrong") }
+            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-v']) >> { throw new IOException("something is wrong") }
             Throwable t = thrown(GradleException)
             t.message == 'VirtualBox could not be detected. Please install!'
     }
@@ -46,7 +46,7 @@ class VirtualBoxInstallationValidatorSpec extends Specification {
         when:
             PrerequisitesValidationResult validationResult = virtualBoxInstallationValidator.validate()
         then:
-            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-h']) >> executionResult
+            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-v']) >> executionResult
             !validationResult.success
             validationResult.message == 'VirtualBox is not functional. Please check!'
     }
@@ -57,7 +57,7 @@ class VirtualBoxInstallationValidatorSpec extends Specification {
         when:
             PrerequisitesValidationResult validationResult = virtualBoxInstallationValidator.validate()
         then:
-            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-h']) >> executionResult
+            1 * mockExternalProcessExecutor.execute([ExternalProgram.VIRTUALBOX.executable, '-v']) >> executionResult
             validationResult.success
             validationResult.message == 'VirtualBox version 1.5.5'
     }

@@ -84,7 +84,8 @@ class VagrantPlugin implements Plugin<Project> {
     }
 
     private String getProvider(Project project) {
-        project.hasProperty('provider') ? project.provider : project.extensions.findByName(EXTENSION_NAME).provider
+        String provider = project.hasProperty('provider') ? project.provider : project.extensions.findByName(EXTENSION_NAME).provider
+        provider ?: Provider.VIRTUALBOX.name
     }
 
     private enum VagrantTaskDefinition {

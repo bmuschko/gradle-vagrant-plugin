@@ -28,9 +28,13 @@ class VirtualBoxInstallationValidator extends AbstractInstallationValidator {
 
     @Override
     List<String> getExecutableOptions() {
-        ['-h']
+        ['-v']
     }
 
     @Override
-    void handleResult(ExternalProcessExecutionResult result) {}
+    void handleResult(ExternalProcessExecutionResult result) {
+        if(result.isOK()) {
+            log.info "Using VirtualBox ${result.text.trim()}."
+        }
+    }
 }

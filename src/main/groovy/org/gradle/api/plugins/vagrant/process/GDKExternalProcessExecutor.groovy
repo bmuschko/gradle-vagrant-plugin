@@ -15,6 +15,9 @@
  */
 package org.gradle.api.plugins.vagrant.process
 
+import groovy.util.logging.Slf4j
+
+@Slf4j
 class GDKExternalProcessExecutor implements ExternalProcessExecutor {
     private final OutputStream output
     private final OutputStream error
@@ -28,14 +31,20 @@ class GDKExternalProcessExecutor implements ExternalProcessExecutor {
 
     @Override
     ExternalProcessExecutionResult execute(List<String> commands) throws IOException {
+        printCommandLineArgs(commands)
         Process process = commands.execute()
         handleProcess(process)
     }
 
     @Override
     ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir) throws IOException {
+        printCommandLineArgs(commands)
         Process process = commands.execute(envp, dir)
         handleProcess(process)
+    }
+
+    private void printCommandLineArgs(List<String> commands) {
+        log.info "Executing external command: '${commands.join(' ')}'"
     }
 
     private ExternalProcessExecutionResult handleProcess(Process process) {

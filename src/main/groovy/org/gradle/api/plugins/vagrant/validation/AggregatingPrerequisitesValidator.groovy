@@ -27,7 +27,7 @@ class AggregatingPrerequisitesValidator implements PrerequisitesValidator, Backe
 
     @Override
     PrerequisitesValidationResult validate() {
-        if(provider) {
+        if(provider && provider == 'virtualbox') {
             installationValidators << new VirtualBoxInstallationValidator()
         }
 

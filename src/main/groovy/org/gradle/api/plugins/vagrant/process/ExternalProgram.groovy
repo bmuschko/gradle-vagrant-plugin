@@ -16,7 +16,7 @@
 package org.gradle.api.plugins.vagrant.process
 
 enum ExternalProgram {
-    VIRTUALBOX('VirtualBox', 'virtualbox'), VAGRANT('Vagrant', 'vagrant')
+    VIRTUALBOX('VirtualBox', 'vboxmanage'), VAGRANT('Vagrant', 'vagrant')
 
     private final String name
     private final String executable
