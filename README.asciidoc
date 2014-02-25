@@ -49,7 +49,7 @@ The plugin defines the following extension properties in the `vagrant` closure:
 [options="header"]
 |=======
 |Property name |Type                                            |Default value                                     |Description
-|`boxDir`      |File                                            |`projectDir`                                      |The directory the targeted Vagrant box resides in.
+|`boxDir`      |File                                            |`project.projectDir`                              |The directory the targeted Vagrant box resides in.
 |`provider`    |String                                          |virtualbox                                        |The link:http://docs.vagrantup.com/v2/providers/index.html[backend provider] to be used.
 |=======
 
