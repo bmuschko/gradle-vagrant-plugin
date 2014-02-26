@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.2'
+        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.3'
     }
 }
 

@@ -1,3 +1,8 @@
+### Version 0.3 (February 26, 2014)
+
+* Fix how the Vagrant executable is run on Windows - [Issue 1](https://github.com/bmuschko/gradle-vagrant-plugin/issues/1).
+* Default to `projectDir` for `boxDir` property - [Issue 2](https://github.com/bmuschko/gradle-vagrant-plugin/issues/2).
+
 ### Version 0.2 (September 28, 2013)
 
 * Upgrade to Gradle Wrapper 1.8.
