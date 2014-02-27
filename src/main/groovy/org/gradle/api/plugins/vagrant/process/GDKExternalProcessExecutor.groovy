@@ -19,14 +19,10 @@ import groovy.util.logging.Slf4j
 
 @Slf4j
 class GDKExternalProcessExecutor implements ExternalProcessExecutor {
-    private final OutputStream output
-    private final OutputStream error
+    boolean printToConsole
 
-    GDKExternalProcessExecutor() {}
-
-    GDKExternalProcessExecutor(OutputStream output, OutputStream error) {
-        this.output = output
-        this.error = error
+    GDKExternalProcessExecutor(boolean printToConsole = true) {
+        this.printToConsole = printToConsole
     }
 
     @Override
@@ -48,11 +44,18 @@ class GDKExternalProcessExecutor implements ExternalProcessExecutor {
     }
 
     private ExternalProcessExecutionResult handleProcess(Process process) {
-        if(output && error) {
-            process.consumeProcessOutput(output, error)
+        def output = new StringBuilder()
+
+        if(printToConsole) {
+            // Process.consumeProcessOutput(System.out, System.err) didn't seem to flush the output to the console on Windows
+            process.in.eachLine { line ->
+                output <<= line
+                println line
+            }
         }
 
         process.waitFor()
-        new ExternalProcessExecutionResult(exitValue: process.exitValue(), text: process.text)
+        String text = printToConsole ? output : process.text
+        new ExternalProcessExecutionResult(exitValue: process.exitValue(), text: text)
     }
 }

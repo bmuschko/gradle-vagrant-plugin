@@ -25,7 +25,7 @@ abstract class AbstractInstallationValidator implements PrerequisitesValidator {
     ExternalProcessExecutor externalProcessExecutor
 
     AbstractInstallationValidator() {
-        externalProcessExecutor = new GDKExternalProcessExecutor()
+        externalProcessExecutor = new GDKExternalProcessExecutor(false)
     }
 
     @Override

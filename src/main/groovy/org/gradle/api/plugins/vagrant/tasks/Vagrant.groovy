@@ -43,7 +43,7 @@ class Vagrant extends DefaultTask {
 
     Vagrant() {
         group = TASK_GROUP
-        processExecutor = new GDKExternalProcessExecutor(System.out, System.err)
+        processExecutor = new GDKExternalProcessExecutor()
     }
 
     @TaskAction
