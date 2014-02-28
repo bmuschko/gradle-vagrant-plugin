@@ -44,18 +44,24 @@ class GDKExternalProcessExecutor implements ExternalProcessExecutor {
     }
 
     private ExternalProcessExecutionResult handleProcess(Process process) {
-        def output = new StringBuilder()
+        def out = new StringBuilder()
+        def err = new StringBuilder()
 
         if(printToConsole) {
             // Process.consumeProcessOutput(System.out, System.err) didn't seem to flush the output to the console on Windows
             process.in.eachLine { line ->
-                output <<= line
+                out <<= line
+                println line
+            }
+
+            process.err.eachLine { line ->
+                err <<= line
                 println line
             }
         }
 
         process.waitFor()
-        String text = printToConsole ? output : process.text
+        String text = printToConsole ? (out <<= err).toString() : process.text
         new ExternalProcessExecutionResult(exitValue: process.exitValue(), text: text)
     }
 }

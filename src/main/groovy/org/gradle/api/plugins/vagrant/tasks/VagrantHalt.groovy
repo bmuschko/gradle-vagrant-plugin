@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,8 @@
  */
 package org.gradle.api.plugins.vagrant.tasks
 
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
-
-class VagrantUp extends Vagrant {
-    /**
-     * The backend provider. Defaults to VirtualBox.
-     */
-    @Input
-    @Optional
-    String provider
-
-    VagrantUp() {
-        commands = ['up']
-    }
-
-    @Override
-    List<String> getOptions() {
-        getProvider() ? ["--provider=${getProvider()}"] : []
+class VagrantHalt extends Vagrant {
+    VagrantHalt() {
+        commands = ['halt']
     }
 }

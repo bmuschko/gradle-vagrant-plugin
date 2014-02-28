@@ -15,99 +15,41 @@
  */
 package org.gradle.api.plugins.vagrant
 
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.execution.TaskExecutionGraph
-import org.gradle.api.plugins.vagrant.tasks.Vagrant
-import org.gradle.api.plugins.vagrant.tasks.VagrantUp
-import org.gradle.api.plugins.vagrant.validation.AggregatingPrerequisitesValidator
-import org.gradle.api.plugins.vagrant.validation.PrerequisitesValidationResult
+import org.gradle.api.plugins.vagrant.tasks.*
 
 class VagrantPlugin implements Plugin<Project> {
-    static final String EXTENSION_NAME = 'vagrant'
-
-    AggregatingPrerequisitesValidator prerequisitesValidator
-
-    VagrantPlugin() {
-        prerequisitesValidator = new AggregatingPrerequisitesValidator()
-    }
-
     @Override
     void apply(Project project) {
-        project.extensions.create(EXTENSION_NAME, VagrantExtension)
-        validateVagrantInstallation(project)
+        project.plugins.apply(VagrantBasePlugin)
         addTasks(project)
     }
 
-    private void validateVagrantInstallation(Project project) {
-        project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
-            if(containsVagrantTask(taskGraph)) {
-                String requestedProvider = getProvider(project)
-
-                if(requestedProvider) {
-                    prerequisitesValidator.setProvider(requestedProvider)
-                }
-
-                PrerequisitesValidationResult result = prerequisitesValidator.validate()
-
-                if(!result.success) {
-                    throw new GradleException(result.message)
-                }
-            }
-        }
-    }
-
-    private boolean containsVagrantTask(TaskExecutionGraph taskGraph) {
-        taskGraph.allTasks.findAll { task -> task instanceof Vagrant }.size() > 0
-    }
-
     private void addTasks(Project project) {
-        project.tasks.withType(Vagrant).whenTaskAdded {
-            conventionMapping.boxDir = { getBoxDir(project) }
-        }
-
-        project.tasks.withType(VagrantUp).whenTaskAdded {
-            conventionMapping.provider = { getProvider(project) }
-        }
-
         VagrantTaskDefinition.values().each { taskDef ->
-            project.task(taskDef.name, type: taskDef.taskClass, description: taskDef.description) {
-                commands = taskDef.commands
-            }
+            project.task(taskDef.name, type: taskDef.taskClass, description: taskDef.description)
         }
-    }
-
-    private File getBoxDir(Project project) {
-        File boxDir = project.hasProperty('boxDir') ? project.file(project.boxDir) : project.extensions.findByName(EXTENSION_NAME).boxDir
-        boxDir ?: project.projectDir
-    }
-
-    private String getProvider(Project project) {
-        String provider = project.hasProperty('provider') ? project.provider : project.extensions.findByName(EXTENSION_NAME).provider
-        provider ?: Provider.VIRTUALBOX.name
     }
 
     private enum VagrantTaskDefinition {
-        DESTROY(Vagrant, 'destroy', 'Stops the running machine Vagrant is managing and destroys all resources.', ['destroy', '--force']),
-        HALT(Vagrant, 'halt', 'Shuts down the running machine Vagrant is managing.', ['halt']),
-        RELOAD(Vagrant, 'reload', 'The equivalent of running a halt followed by an up.', ['reload']),
-        RESUME(Vagrant, 'resume', 'Resumes a Vagrant managed machine that was previously suspended.', ['resume']),
-        SSH_CONFIG(Vagrant, 'sshConfig', 'Outputs the valid configuration for an SSH config file to SSH.', ['ssh-config']),
-        STATUS(Vagrant, 'status', 'Outputs the state of the machines Vagrant is managing.', ['status']),
-        SUSPEND(Vagrant, 'suspend', 'Suspends the guest machine Vagrant is managing.', ['suspend']),
-        UP(VagrantUp, 'up', 'Creates and configures guest machines according to your Vagrantfile.', ['up'])
+        DESTROY(VagrantDestroy, 'destroy', 'Stops the running machine Vagrant is managing and destroys all resources.'),
+        HALT(VagrantHalt, 'halt', 'Shuts down the running machine Vagrant is managing.'),
+        RELOAD(VagrantReload, 'reload', 'The equivalent of running a halt followed by an up.'),
+        RESUME(VagrantResume, 'resume', 'Resumes a Vagrant managed machine that was previously suspended.'),
+        SSH_CONFIG(VagrantSshConfig, 'sshConfig', 'Outputs the valid configuration for an SSH config file to SSH.'),
+        STATUS(VagrantStatus, 'status', 'Outputs the state of the machines Vagrant is managing.'),
+        SUSPEND(VagrantSuspend, 'suspend', 'Suspends the guest machine Vagrant is managing.'),
+        UP(VagrantUp, 'up', 'Creates and configures guest machines according to your Vagrantfile.')
 
         private final Class taskClass
         private final String name
         private final String description
-        private final List<String> commands
 
-        private VagrantTaskDefinition(Class taskClass, String name, String description, List<String> commands) {
+        private VagrantTaskDefinition(Class taskClass, String name, String description) {
             this.taskClass = taskClass
             this.name = name
             this.description = description
-            this.commands = commands
         }
 
         String getName() {

@@ -17,40 +17,123 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.4'
+        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.5'
     }
 }
+----
 
+
+== Base plugin
+
+If you want to create your own task for managing Vagrant, you should go with the base plugin. This option is usually helpful
+if you are dealing with multiple VMs in parallel. The base plugin provides all custom task types and preconfigures them with
+sensible defaults. To use the base plugin, add the following `apply` notation to your build script.
+
+[source,groovy]
+----
+apply plugin: 'vagrant-base'
+----
+
+
+=== Custom task types
+
+The base plugin provides the following custom task types:
+
+[options="header"]
+|=======
+|Type               |Description
+|VagrantDestroy     |Stops the running machine Vagrant is managing and destroys all resources.
+|VagrantHalt        |Shuts down the running machine Vagrant is managing.
+|VagrantReload      |The equivalent of running a halt followed by an up.
+|VagrantResume      |Resumes the guest machine Vagrant is managing.
+|VagrantSsh         |Executes a SSH command on the Vagrant machine.
+|VagrantSshConfig   |Outputs the valid configuration for an SSH config file to SSH.
+|VagrantStatus      |Outputs the state of the machines Vagrant is managing.
+|VagrantSuspend     |Suspends the guest machine Vagrant is managing.
+|VagrantUp          |Creates and configures guest machines according to your Vagrantfile.
+|=======
+
+
+=== Extension properties
+
+The base plugin defines the following extension properties in the `vagrant` closure:
+
+[options="header"]
+|=======
+|Property name |Type     |Default value          |Description
+|`boxDir`      |File     |`project.projectDir`   |The directory the targeted Vagrant box resides in.
+|`provider`    |String   |virtualbox             |The link:http://docs.vagrantup.com/v2/providers/index.html[backend provider] to be used.
+|=======
+
+
+=== Example
+
+[source,groovy]
+----
+import org.gradle.api.plugins.vagrant.tasks.VagrantUp
+import org.gradle.api.plugins.vagrant.tasks.VagrantDestroy
+
+ext {
+    virtualBoxDir = file('virtualbox-box')
+    fusionBoxDir = file('fusion-box')
+    fusionProvider = 'vmware_fusion'
+}
+
+task startVirtualBoxVm(type: VagrantUp) {
+    description = 'Starts VM machine running on VirtualBox.'
+    group = 'VirtualBox VM'
+    boxDir = virtualBoxDir
+}
+
+task stopVirtualBoxVm(type: VagrantDestroy) {
+    description = 'Stops VM machine running on VirtualBox.'
+    group = 'VirtualBox VM'
+    boxDir = virtualBoxDir
+}
+
+task startFusionVm(type: VagrantUp) {
+    description = 'Starts VM machine running on VMware Fusion.'
+    group = 'Fusion VM'
+    boxDir = fusionBoxDir
+    provider = fusionProvider
+}
+
+task stopFusionVm(type: VagrantDestroy) {
+    description = 'Stops VM machine running on VMware Fusion.'
+    group = 'Fusion VM'
+    boxDir = fusionBoxDir
+    provider = fusionProvider
+}
+----
+
+
+== Convention plugin
+
+If you want the plugin to preconfigure commonly-used tasks for you, you should go with the full-fledged convention plugin.
+This plugin is a viable option if you only have to deal with a single VM. To use the convention plugin, add the following `apply`
+notation to your build script.
+
+[source,groovy]
+----
 apply plugin: 'vagrant'
 ----
 
-== Tasks
+
+=== Default tasks
 
 The plugin defines the following tasks:
 
 [options="header"]
 |=======
-|Task name           |Depends on |Type          |Description
-|`vagrantDestroy`    |-          |Vagrant       |Stops the running machine Vagrant is managing and destroys all resources.
-|`vagrantHalt`       |-          |Vagrant       |Shuts down the running machine Vagrant is managing.
-|`vagrantReload`     |-          |Vagrant       |The equivalent of running a halt followed by an up.
-|`vagrantResume`     |-          |Vagrant       |Resumes the guest machine Vagrant is managing.
-|`vagrantSshConfig`  |-          |Vagrant       |Outputs the valid configuration for an SSH config file to SSH.
-|`vagrantStatus`     |-          |Vagrant       |Outputs the state of the machines Vagrant is managing.
-|`vagrantSuspend`    |-          |Vagrant       |Suspends the guest machine Vagrant is managing.
-|`vagrantUp`         |-          |VagrantUp     |Creates and configures guest machines according to your Vagrantfile.
-|=======
-
-
-== Extension properties
-
-The plugin defines the following extension properties in the `vagrant` closure:
-
-[options="header"]
-|=======
-|Property name |Type                                            |Default value                                     |Description
-|`boxDir`      |File                                            |`project.projectDir`                              |The directory the targeted Vagrant box resides in.
-|`provider`    |String                                          |virtualbox                                        |The link:http://docs.vagrantup.com/v2/providers/index.html[backend provider] to be used.
+|Task name           |Depends on |Type
+|`vagrantDestroy`    |-          |VagrantDestroy
+|`vagrantHalt`       |-          |VagrantHalt
+|`vagrantReload`     |-          |VagrantReload
+|`vagrantResume`     |-          |VagrantResume
+|`vagrantSshConfig`  |-          |VagrantSshConfig
+|`vagrantStatus`     |-          |VagrantStatus
+|`vagrantSuspend`    |-          |VagrantSuspend
+|`vagrantUp`         |-          |VagrantUp
 |=======
 
 

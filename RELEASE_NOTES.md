@@ -1,3 +1,11 @@
+### Version 0.5 (February 28, 2014)
+
+* Capture errors from external program output and render it in console.
+* Each Vagrant operation now has a custom task type.
+* Split up code into two plugins:
+    * `vagrant-base`: Provides custom tasks and preconfigures them.
+    * `vagrant`: Creates tasks of all custom types with default values.
+
 ### Version 0.4 (February 27, 2014)
 
 * Correctly capture command line output for external programs on Windows.
