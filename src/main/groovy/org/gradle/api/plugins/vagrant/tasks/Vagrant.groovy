@@ -21,6 +21,7 @@ import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutionResult
 import org.gradle.api.plugins.vagrant.process.ExternalProcessExecutor
 import org.gradle.api.plugins.vagrant.process.ExternalProgram
 import org.gradle.api.plugins.vagrant.process.GDKExternalProcessExecutor
+import org.gradle.api.plugins.vagrant.utils.OsUtils
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
@@ -39,6 +40,12 @@ class Vagrant extends DefaultTask {
     @Input
     File boxDir
 
+    /**
+     * The environment variables passed to Vagrant command.
+     */
+    @Input
+    Map<String, String> environmentVariables = [:]
+
     ExternalProcessExecutor processExecutor
 
     Vagrant() {
@@ -52,12 +59,16 @@ class Vagrant extends DefaultTask {
         vagrantCommands.addAll(0, ExternalProgram.VAGRANT.commandLineArgs)
         vagrantCommands.addAll(getOptions())
 
-        logger.info "Executing Vagrant command: '${vagrantCommands.join(' ')}'"
-        ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, null, getBoxDir())
+        ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, getEnvVars(), getBoxDir())
 
         if(!result.isOK()) {
             throw new GradleException('Failed to execute the Vagrant command.')
         }
+    }
+
+    @Override
+    List<String> getEnvVars() {
+        getEnvironmentVariables().size() > 0 ? OsUtils.prepareEnvVars(getEnvironmentVariables()) : null
     }
 
     List<String> getOptions() {

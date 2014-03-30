@@ -15,6 +15,8 @@
  */
 package org.gradle.api.plugins.vagrant.process
 
+import org.gradle.api.plugins.vagrant.utils.OsUtils
+
 enum ExternalProgram {
     VIRTUALBOX('VirtualBox', 'vboxmanage'), VAGRANT('Vagrant', 'vagrant')
 
@@ -37,16 +39,12 @@ enum ExternalProgram {
     List<String> getCommandLineArgs() {
         def commandLineArgs = []
 
-        if(isOSWindows()) {
+        if(OsUtils.isOSWindows()) {
             commandLineArgs << 'cmd'
             commandLineArgs << '/c'
         }
 
         commandLineArgs << executable
         commandLineArgs
-    }
-
-    private boolean isOSWindows() {
-        System.properties['os.name'].toLowerCase().contains('windows')
     }
 }

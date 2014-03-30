@@ -34,13 +34,13 @@ class GDKExternalProcessExecutor implements ExternalProcessExecutor {
 
     @Override
     ExternalProcessExecutionResult execute(List<String> commands, List envp, File dir) throws IOException {
-        printCommandLineArgs(commands)
+        printCommandLineArgs(commands, envp)
         Process process = commands.execute(envp, dir)
         handleProcess(process)
     }
 
-    private void printCommandLineArgs(List<String> commands) {
-        log.info "Executing external command: '${commands.join(' ')}'"
+    private void printCommandLineArgs(List<String> commands, List envp = null) {
+        log.info "Executing external command: '${commands.join(' ')}' with environment variables ${envp ?: '[]'}"
     }
 
     private ExternalProcessExecutionResult handleProcess(Process process) {
