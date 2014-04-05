@@ -26,25 +26,12 @@ final class OsUtils {
     }
 
     static List<String> prepareEnvVars(Map<String, String> providedEnvVars) {
-        providedEnvVars[VAGRANT_HOME_ENV_VAR] = determineVagrantHome()
-        flattenEnvVars(providedEnvVars)
-    }
-
-    private static String determineVagrantHome() {
-        String vagrantHome = System.getenv()[VAGRANT_HOME_ENV_VAR]
-
-        if(!vagrantHome) {
-            String userProfile = System.getenv()[USERPROFILE_ENV_VAR]
-
-            if(userProfile) {
-                vagrantHome = "$userProfile/.vagrant.d"
-            }
-            else {
-                vagrantHome = "${System.properties['user.home']}/.vagrant.d"
-            }
-        }
-
-        vagrantHome
+        def allEnvVars = [:]
+        // Get all of the inherited environment variables.
+        allEnvVars.putAll(System.getenv())
+        // Apply the overrides and additions.
+        allEnvVars.putAll(providedEnvVars)
+        flattenEnvVars(allEnvVars)
     }
 
     private static List<String> flattenEnvVars(Map<String, String> providedEnvVars) {
