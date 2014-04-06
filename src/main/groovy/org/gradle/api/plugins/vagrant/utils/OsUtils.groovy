@@ -16,9 +16,6 @@
 package org.gradle.api.plugins.vagrant.utils
 
 final class OsUtils {
-    static final String VAGRANT_HOME_ENV_VAR = 'VAGRANT_HOME'
-    static final String USERPROFILE_ENV_VAR = 'USERPROFILE'
-
     private OsUtils() {}
 
     static boolean isOSWindows() {
