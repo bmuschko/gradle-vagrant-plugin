@@ -74,6 +74,7 @@ is added to internal property named `variables`.
 |=======
 |Property name   |Type                      |Default value          |Description
 |`variables`     |Map<String, String>       |[:]                    |Provided environment variables as key/value pairs.
+|=======
 
 === Example
 
