@@ -1,3 +1,7 @@
+### Version 0.6 (April 6, 2014)
+
+* Pass environment variables when invoking Vagrant - [Issue 3](https://github.com/bmuschko/gradle-vagrant-plugin/issues/3).
+
 ### Version 0.5 (February 28, 2014)
 
 * Capture errors from external program output and render it in console.
