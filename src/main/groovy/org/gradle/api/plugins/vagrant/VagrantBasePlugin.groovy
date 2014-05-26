@@ -37,7 +37,9 @@ class VagrantBasePlugin implements Plugin<Project> {
     void apply(Project project) {
         project.extensions.create(EXTENSION_NAME, VagrantExtension)
         configureVagrantTasks(project)
-        validateVagrantInstallation(project)
+        if(isInstallationValidationEnabled(project)) {
+			validateVagrantInstallation(project) 
+		}
     }
 
     private void configureVagrantTasks(Project project) {
@@ -55,7 +57,12 @@ class VagrantBasePlugin implements Plugin<Project> {
         File boxDir = project.hasProperty('boxDir') ? project.file(project.boxDir) : project.extensions.findByName(EXTENSION_NAME).boxDir
         boxDir ?: project.projectDir
     }
-
+	
+	private Boolean isInstallationValidationEnabled(Project project) {
+		Boolean installationValidationEnabled = project.extensions.findByName(EXTENSION_NAME).installation.validate
+		installationValidationEnabled
+	}
+	
     private String getProvider(Project project) {
         String provider = project.hasProperty('provider') ? project.provider : project.extensions.findByName(EXTENSION_NAME).provider
         provider ?: Provider.VIRTUALBOX.name
