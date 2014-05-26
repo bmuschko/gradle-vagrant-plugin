@@ -33,7 +33,16 @@ class VagrantExtension {
      */
     EnvironmentVariables environmentVariables = new EnvironmentVariables()
 
+	/**
+	 * Installation variables
+	 */
+	Installation installation = new Installation()
+	
     void environmentVariables(Closure closure) {
         ConfigureUtil.configure(closure, environmentVariables)
     }
+	
+	void installation(Closure closure) {
+		ConfigureUtil.configure(closure, installation)
+	}
 }
