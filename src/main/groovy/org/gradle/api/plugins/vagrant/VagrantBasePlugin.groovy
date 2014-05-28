@@ -24,9 +24,6 @@ import org.gradle.api.plugins.vagrant.tasks.VagrantUp
 import org.gradle.api.plugins.vagrant.validation.AggregatingPrerequisitesValidator
 import org.gradle.api.plugins.vagrant.validation.PrerequisitesValidationResult
 
-import groovy.util.logging.Slf4j
-
-@Slf4j
 class VagrantBasePlugin implements Plugin<Project> {
     static final String EXTENSION_NAME = 'vagrant'
 
