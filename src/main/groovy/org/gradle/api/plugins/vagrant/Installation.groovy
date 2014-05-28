@@ -16,9 +16,9 @@
 package org.gradle.api.plugins.vagrant
 
 class Installation {
-    Boolean validate
+    Boolean validate = true
 
-    void validate(String value) {
-        validate = value.toBoolean()
+    void validate(Boolean value) {
+		validate = value
     }
 }

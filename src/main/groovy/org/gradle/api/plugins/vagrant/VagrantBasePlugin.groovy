@@ -24,6 +24,9 @@ import org.gradle.api.plugins.vagrant.tasks.VagrantUp
 import org.gradle.api.plugins.vagrant.validation.AggregatingPrerequisitesValidator
 import org.gradle.api.plugins.vagrant.validation.PrerequisitesValidationResult
 
+import groovy.util.logging.Slf4j
+
+@Slf4j
 class VagrantBasePlugin implements Plugin<Project> {
     static final String EXTENSION_NAME = 'vagrant'
 
@@ -36,16 +39,14 @@ class VagrantBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.create(EXTENSION_NAME, VagrantExtension)
-        configureVagrantTasks(project)
-        if(isInstallationValidationEnabled(project)) {
-			validateVagrantInstallation(project) 
-		}
+        configureVagrantTasks(project)      
+		validateVagrantInstallation(project) 		
     }
 
     private void configureVagrantTasks(Project project) {
         project.tasks.withType(Vagrant) {
             conventionMapping.boxDir = { getBoxDir(project) }
-            conventionMapping.environmentVariables = { project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables }
+            conventionMapping.environmentVariables = { project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables }			
         }
 
         project.tasks.withType(VagrantUp) {
@@ -68,9 +69,9 @@ class VagrantBasePlugin implements Plugin<Project> {
         provider ?: Provider.VIRTUALBOX.name
     }
 
-    private void validateVagrantInstallation(Project project) {
-        project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
-            if(containsVagrantTask(taskGraph)) {
+    private void validateVagrantInstallation(Project project) {				
+		project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
+            if(isInstallationValidationEnabled(project) && containsVagrantTask(taskGraph)) {
                 String requestedProvider = getProvider(project)
 
                 if(requestedProvider) {
