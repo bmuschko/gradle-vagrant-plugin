@@ -88,6 +88,26 @@ class VagrantBasePluginSpec extends Specification {
         then:
             task.provider == 'vmware_fusion'
     }
+	
+	def "Installation validation is set to value from extension"() {
+		when:
+			project.apply plugin: 'vagrant-base'
+			
+			project.vagrant {
+				installation {
+					validate false
+				}
+			}
+		then:
+			project.extensions.findByName('vagrant').installation.validate == false
+	}
+	
+	def "Installation validation defaults to enabled if not set"() {
+		when:
+			project.apply plugin: 'vagrant-base'					
+		then:
+			project.extensions.findByName('vagrant').installation.validate == true
+	}
 
     def "Can create task of type Vagrant with default values"() {
         when:
