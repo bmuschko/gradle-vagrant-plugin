@@ -169,9 +169,9 @@ vagrant {
         variable 'OPERATINGSYSTEM', 'redhat'
     }
 	
-	installation {
-		validate false
-	}
+    installation {
+        validate false
+    }
 }
 
 import org.gradle.api.plugins.vagrant.tasks.Vagrant
