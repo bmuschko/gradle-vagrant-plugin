@@ -76,6 +76,16 @@ is added to internal property named `variables`.
 |`variables`     |Map<String, String>       |[:]                    |Provided environment variables as key/value pairs.
 |=======
 
+By default the plugin validates vagrant and provider installation. This can be disabled from your buildscript. This is made
+possible through the nested configuration element `installation`. This elemetnt exposes the method `validate` 
+that take one parameter: boolean value for installation validation. 
+
+[options="header"]
+|=======
+|Property name   |Type          |Default value           |Description
+|`validate`      |Boolean       |true                    |Installation validation
+|=======
+
 === Example
 
 [source,groovy]
@@ -158,6 +168,10 @@ vagrant {
         variable 'IP', '192.168.1.33'
         variable 'OPERATINGSYSTEM', 'redhat'
     }
+	
+	installation {
+		validate false
+	}
 }
 
 import org.gradle.api.plugins.vagrant.tasks.Vagrant
