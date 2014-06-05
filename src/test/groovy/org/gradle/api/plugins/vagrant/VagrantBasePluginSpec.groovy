@@ -21,6 +21,7 @@ import org.gradle.api.plugins.vagrant.tasks.VagrantDestroy
 import org.gradle.api.plugins.vagrant.tasks.VagrantUp
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class VagrantBasePluginSpec extends Specification {
     Project project
@@ -88,26 +89,47 @@ class VagrantBasePluginSpec extends Specification {
         then:
             task.provider == 'vmware_fusion'
     }
-	
-	def "Installation validation is set to value from extension"() {
-		when:
-			project.apply plugin: 'vagrant-base'
-			
-			project.vagrant {
-				installation {
-					validate false
-				}
-			}
-		then:
-			project.extensions.findByName('vagrant').installation.validate == false
-	}
-	
-	def "Installation validation defaults to enabled if not set"() {
-		when:
-			project.apply plugin: 'vagrant-base'					
-		then:
-			project.extensions.findByName('vagrant').installation.validate == true
-	}
+
+    @Unroll
+    def "Installation validation is set to #enabledValidation value from extension via exposed method"() {
+        when:
+            project.apply plugin: 'vagrant-base'
+
+            project.vagrant {
+                installation {
+                    validate enabledValidation
+                }
+            }
+        then:
+            project.extensions.findByName('vagrant').installation.validate == enabledValidation
+
+        where:
+            enabledValidation << [true, false]
+    }
+
+    @Unroll
+    def "Installation validation is set to #enabledValidation value from extension via setter method"() {
+        when:
+        project.apply plugin: 'vagrant-base'
+
+        project.vagrant {
+            installation {
+                validate = enabledValidation
+            }
+        }
+        then:
+        project.extensions.findByName('vagrant').installation.validate == enabledValidation
+
+        where:
+        enabledValidation << [true, false]
+    }
+
+    def "Installation validation defaults to enabled if not set"() {
+        when:
+            project.apply plugin: 'vagrant-base'
+        then:
+            project.extensions.findByName('vagrant').installation.validate
+    }
 
     def "Can create task of type Vagrant with default values"() {
         when:

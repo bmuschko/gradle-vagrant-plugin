@@ -37,13 +37,13 @@ class VagrantBasePlugin implements Plugin<Project> {
     void apply(Project project) {
         project.extensions.create(EXTENSION_NAME, VagrantExtension)
         configureVagrantTasks(project)      
-		validateVagrantInstallation(project) 		
+        validateVagrantInstallation(project)
     }
 
     private void configureVagrantTasks(Project project) {
         project.tasks.withType(Vagrant) {
             conventionMapping.boxDir = { getBoxDir(project) }
-            conventionMapping.environmentVariables = { project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables }			
+            conventionMapping.environmentVariables = { project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables }
         }
 
         project.tasks.withType(VagrantUp) {
@@ -55,19 +55,14 @@ class VagrantBasePlugin implements Plugin<Project> {
         File boxDir = project.hasProperty('boxDir') ? project.file(project.boxDir) : project.extensions.findByName(EXTENSION_NAME).boxDir
         boxDir ?: project.projectDir
     }
-	
-	private Boolean isInstallationValidationEnabled(Project project) {
-		Boolean installationValidationEnabled = project.extensions.findByName(EXTENSION_NAME).installation.validate
-		installationValidationEnabled
-	}
-	
+
     private String getProvider(Project project) {
         String provider = project.hasProperty('provider') ? project.provider : project.extensions.findByName(EXTENSION_NAME).provider
         provider ?: Provider.VIRTUALBOX.name
     }
 
-    private void validateVagrantInstallation(Project project) {				
-		project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
+    private void validateVagrantInstallation(Project project) {
+        project.gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
             if(isInstallationValidationEnabled(project) && containsVagrantTask(taskGraph)) {
                 String requestedProvider = getProvider(project)
 
@@ -82,6 +77,12 @@ class VagrantBasePlugin implements Plugin<Project> {
                 }
             }
         }
+    }
+
+    private Boolean isInstallationValidationEnabled(Project project) {
+        Boolean enabledValidation = project.extensions.findByName(EXTENSION_NAME).installation.validate
+        project.logger.info "Installation validation enabled: $enabledValidation"
+        enabledValidation
     }
 
     private boolean containsVagrantTask(TaskExecutionGraph taskGraph) {

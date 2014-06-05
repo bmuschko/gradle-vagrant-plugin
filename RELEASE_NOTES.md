@@ -1,3 +1,7 @@
+### Version 0.7 (June 5, 2014)
+
+* Allow for configuring installation validation - [Pull Request 6](https://github.com/bmuschko/gradle-vagrant-plugin/pull/6).
+
 ### Version 0.6 (April 6, 2014)
 
 * Pass environment variables when invoking Vagrant - [Issue 3](https://github.com/bmuschko/gradle-vagrant-plugin/issues/3).

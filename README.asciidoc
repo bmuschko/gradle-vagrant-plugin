@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.6'
+        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.7'
     }
 }
 ----
@@ -76,9 +76,9 @@ is added to internal property named `variables`.
 |`variables`     |Map<String, String>       |[:]                    |Provided environment variables as key/value pairs.
 |=======
 
-By default the plugin validates vagrant and provider installation. This can be disabled from your buildscript. This is made
-possible through the nested configuration element `installation`. This elemetnt exposes the method `validate` 
-that take one parameter: boolean value for installation validation. 
+By default the plugin validates the installation of the Vagrant runtime and the selected provider. This validation logic
+can be disabled from your buildscript. This is made possible through the nested configuration element `installation`.
+This element exposes the method `validate` that take a single parameter.
 
 [options="header"]
 |=======
@@ -168,9 +168,9 @@ vagrant {
         variable 'IP', '192.168.1.33'
         variable 'OPERATINGSYSTEM', 'redhat'
     }
-	
+
     installation {
-        validate false
+        validate = false
     }
 }
 
