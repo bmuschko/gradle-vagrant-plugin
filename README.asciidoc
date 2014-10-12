@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-vagrant-plugin:0.7'
+        classpath 'com.bmuschko:gradle-vagrant-plugin:2.0'
     }
 }
 ----
@@ -31,7 +31,7 @@ sensible defaults. To use the base plugin, add the following `apply` notation to
 
 [source,groovy]
 ----
-apply plugin: 'vagrant-base'
+apply plugin: 'com.bmuschko.vagrant-base'
 ----
 
 
@@ -42,14 +42,14 @@ The base plugin provides the following custom task types:
 [options="header"]
 |=======
 |Type                                                                                                                                              |Description
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantDestroy.html[VagrantDestroy]      |Stops the running machine Vagrant is managing and destroys all resources.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantHalt.html[VagrantHalt]            |Shuts down the running machine Vagrant is managing.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantReload.html[VagrantReload]        |The equivalent of running a halt followed by an up.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantSsh.html[VagrantSsh]              |Executes a SSH command on the Vagrant machine.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantSshConfig.html[VagrantSshConfig]  |Outputs the valid configuration for an SSH config file to SSH.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantStatus.html[VagrantStatus]        |Outputs the state of the machines Vagrant is managing.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantSuspend.html[VagrantSuspend]      |Suspends the guest machine Vagrant is managing.
-|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantUp.html[VagrantUp]                |Creates and configures guest machines according to your Vagrantfile.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantDestroy.html[VagrantDestroy]      |Stops the running machine Vagrant is managing and destroys all resources.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantHalt.html[VagrantHalt]            |Shuts down the running machine Vagrant is managing.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantReload.html[VagrantReload]        |The equivalent of running a halt followed by an up.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantSsh.html[VagrantSsh]              |Executes a SSH command on the Vagrant machine.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantSshConfig.html[VagrantSshConfig]  |Outputs the valid configuration for an SSH config file to SSH.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantStatus.html[VagrantStatus]        |Outputs the state of the machines Vagrant is managing.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantSuspend.html[VagrantSuspend]      |Suspends the guest machine Vagrant is managing.
+|link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantUp.html[VagrantUp]                |Creates and configures guest machines according to your Vagrantfile.
 |=======
 
 
@@ -89,8 +89,8 @@ This element exposes the method `validate` that take a single parameter.
 
 [source,groovy]
 ----
-import org.gradle.api.plugins.vagrant.tasks.VagrantUp
-import org.gradle.api.plugins.vagrant.tasks.VagrantDestroy
+import com.bmuschko.gradle.vagrant.tasks.VagrantUp
+import com.bmuschko.gradle.vagrant.tasks.VagrantDestroy
 
 ext {
     virtualBoxDir = file('virtualbox-box')
@@ -134,7 +134,7 @@ notation to your build script.
 
 [source,groovy]
 ----
-apply plugin: 'vagrant'
+apply plugin: 'com.bmuschko.vagrant'
 ----
 
 
@@ -145,14 +145,14 @@ The plugin defines the following tasks:
 [options="header"]
 |=======
 |Task name           |Depends on |Type
-|`vagrantDestroy`    |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantDestroy.html[VagrantDestroy]
-|`vagrantHalt`       |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantHalt.html[VagrantHalt]
-|`vagrantReload`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantReload.html[VagrantReload]
-|`vagrantResume`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantResume.html[VagrantResume]
-|`vagrantSshConfig`  |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantSshConfig.html[VagrantSshConfig]
-|`vagrantStatus`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantStatus.html[VagrantStatus]
-|`vagrantSuspend`    |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantSuspend.html[VagrantSuspend]
-|`vagrantUp`         |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/org/gradle/api/plugins/vagrant/tasks/VagrantUp.html[VagrantUp]
+|`vagrantDestroy`    |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantDestroy.html[VagrantDestroy]
+|`vagrantHalt`       |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantHalt.html[VagrantHalt]
+|`vagrantReload`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantReload.html[VagrantReload]
+|`vagrantResume`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantResume.html[VagrantResume]
+|`vagrantSshConfig`  |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantSshConfig.html[VagrantSshConfig]
+|`vagrantStatus`     |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantStatus.html[VagrantStatus]
+|`vagrantSuspend`    |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantSuspend.html[VagrantSuspend]
+|`vagrantUp`         |-          |link:http://bmuschko.github.io/gradle-vagrant-plugin/docs/groovydoc/com/bmuschko/gradle/vagrant/tasks/VagrantUp.html[VagrantUp]
 |=======
 
 
@@ -173,8 +173,8 @@ vagrant {
     }
 }
 
-import org.gradle.api.plugins.vagrant.tasks.Vagrant
-import org.gradle.api.plugins.vagrant.tasks.VagrantSsh
+import com.bmuschko.gradle.vagrant.tasks.Vagrant
+import com.bmuschko.gradle.vagrant.tasks.VagrantSsh
 
 task vagrantListsBoxes(type: Vagrant) {
     description = 'Outputs a list of available Vagrant boxes.'

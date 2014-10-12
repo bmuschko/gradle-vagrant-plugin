@@ -1,3 +1,10 @@
+### Version 2.0 (October 11, 2014)
+
+* Upgrade to Gradle Wrapper 2.1.
+* Changed package name to `com.bmuschko.gradle.vagrant`.
+* Changed group ID to `com.bmuschko`.
+* Adapted plugin IDs to be compatible with Gradle's plugin portal.
+
 ### Version 0.7 (June 5, 2014)
 
 * Allow for configuring installation validation - [Pull Request 6](https://github.com/bmuschko/gradle-vagrant-plugin/pull/6).
