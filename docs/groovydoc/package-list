@@ -1,5 +1,5 @@
-org.gradle.api.plugins.vagrant
-org.gradle.api.plugins.vagrant.process
-org.gradle.api.plugins.vagrant.tasks
-org.gradle.api.plugins.vagrant.utils
-org.gradle.api.plugins.vagrant.validation
+com.bmuschko.gradle.vagrant
+com.bmuschko.gradle.vagrant.process
+com.bmuschko.gradle.vagrant.tasks
+com.bmuschko.gradle.vagrant.utils
+com.bmuschko.gradle.vagrant.validation
