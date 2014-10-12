@@ -111,12 +111,6 @@ bintray {
 
     pkg {
         repo = 'gradle-plugins'
-        name = 'gradle-vagrant-plugin'
-        licenses = ['Apache-2.0']
-    }
-
-    pkg {
-        repo = 'gradle-plugins'
         name = 'com.bmuschko:gradle-vagrant-plugin'
         desc = 'Gradle plugin for managing Vagrant boxes.'
         websiteUrl = "https://github.com/bmuschko/${project.name}"
