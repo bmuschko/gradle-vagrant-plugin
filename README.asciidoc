@@ -17,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-vagrant-plugin:2.0'
+        classpath 'com.bmuschko:gradle-vagrant-plugin:2.1'
     }
 }
 ----

@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-        maven { url 'http://jcenter.bintray.com' }
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6'
-        classpath 'org.ajoberstar:gradle-git:0.9.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath 'org.ajoberstar:gradle-git:1.5.1'
     }
 }
 
@@ -13,19 +13,19 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'github-pages'
+apply plugin: 'org.ajoberstar.github-pages'
 
 group = 'com.bmuschko'
-version = '2.0'
+version = '2.1'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
     compile localGroovy()
     compile gradleApi()
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude group: 'org.codehaus.groovy'
     }
 }
@@ -98,10 +98,6 @@ publishing {
             }
         }
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
 }
 
 bintray {
