@@ -5,6 +5,8 @@ image:http://erikaheidi.com/theme/fatcatz/images/vagrant/logo_vagrant.png[Vagran
 
 Gradle plugin for managing link:http://www.vagrantup.com/[Vagrant] boxes.
 
+link:https://snap-ci.com/bmuschko/gradle-vagrant-plugin/branch/master[image:https://snap-ci.com/bmuschko/gradle-vagrant-plugin/branch/master/build_image[Build Image]]
+
 == Usage
 
 To use the plugin, include in your build script:
