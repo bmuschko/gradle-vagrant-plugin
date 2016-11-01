@@ -67,9 +67,15 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
     from groovydoc.destinationDir
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
 artifacts {
     archives sourcesJar
     archives groovydocJar
+    archives javadocJar
 }
 
 publishing {
@@ -78,6 +84,7 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact groovydocJar
+            artifact javadocJar
 
             pom.withXml {
                 def root = asNode()
