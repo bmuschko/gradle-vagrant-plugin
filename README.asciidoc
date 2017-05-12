@@ -1,7 +1,6 @@
-Gradle Vagrant plugin image:https://travis-ci.org/bmuschko/gradle-vagrant-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/bmuschko/gradle-vagrant-plugin"]
-=====================
+= Gradle Vagrant plugin image:https://travis-ci.org/bmuschko/gradle-vagrant-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/bmuschko/gradle-vagrant-plugin"]
 
-image:http://erikaheidi.com/theme/fatcatz/images/vagrant/logo_vagrant.png[Vagrant Logo]
+image:https://hyzxph.media.zestyio.com/blog-vagrant.svg[Vagrant Logo, scaledwidth="25%"]
 
 Gradle plugin for managing link:http://www.vagrantup.com/[Vagrant] boxes.
 
