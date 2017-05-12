@@ -1,11 +1,9 @@
-Gradle Vagrant plugin
+Gradle Vagrant plugin image:https://travis-ci.org/bmuschko/gradle-vagrant-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/bmuschko/gradle-vagrant-plugin"]
 =====================
 
 image:http://erikaheidi.com/theme/fatcatz/images/vagrant/logo_vagrant.png[Vagrant Logo]
 
 Gradle plugin for managing link:http://www.vagrantup.com/[Vagrant] boxes.
-
-link:https://snap-ci.com/bmuschko/gradle-vagrant-plugin/branch/master[image:https://snap-ci.com/bmuschko/gradle-vagrant-plugin/branch/master/build_image[Build Image]]
 
 == Usage
 
