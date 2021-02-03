@@ -58,9 +58,9 @@ The base plugin defines the following extension properties in the `vagrant` clos
 
 [options="header"]
 |=======
-|Property name   |Type      |Default value          |Description
-|`boxDir`        |File      |`project.projectDir`   |The directory the targeted Vagrant box resides in.
-|`provider`      |String    |virtualbox             |The link:http://docs.vagrantup.com/v2/providers/index.html[backend provider] to be used.
+|Property name   |Type      |Default value               |Description
+|`boxDir`        |File      |`project.file("vagrant")`   |The directory the targeted Vagrant box resides in.
+|`provider`      |String    |virtualbox                  |The link:http://docs.vagrantup.com/v2/providers/index.html[backend provider] to be used.
 |=======
 
 The recommended way for providing values to the `Vagrantfile` from the outside is to use environment variables. This is made

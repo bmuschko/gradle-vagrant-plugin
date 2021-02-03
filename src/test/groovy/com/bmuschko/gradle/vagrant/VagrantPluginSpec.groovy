@@ -50,7 +50,7 @@ class VagrantPluginSpec extends Specification {
             project.tasks.findByName('vagrantUp').commands == ['up']
 
             project.tasks.withType(Vagrant) { task ->
-                assert task.boxDir == project.projectDir
+                assert task.boxDir == project.file("vagrant")
             }
 
             project.tasks.withType(VagrantUp) { task ->

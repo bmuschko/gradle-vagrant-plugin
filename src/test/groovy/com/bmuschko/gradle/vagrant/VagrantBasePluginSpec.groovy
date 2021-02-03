@@ -35,7 +35,7 @@ class VagrantBasePluginSpec extends Specification {
         when:
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.boxDir == project.projectDir
+            task.boxDir == project.file("vagrant")
     }
 
     def "Box directory is set to value from extension"() {
@@ -128,7 +128,7 @@ class VagrantBasePluginSpec extends Specification {
             project.tasks.findByName('vagrantListsBoxes')
             task.description == 'Outputs a list of available Vagrant boxes.'
             task.commands == ['box', 'list']
-            task.boxDir == project.projectDir
+            task.boxDir == project.file("vagrant")
     }
 
     def "Can create task of type Vagrant with custom values"() {
