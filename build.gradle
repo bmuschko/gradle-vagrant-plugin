@@ -10,7 +10,6 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.ajoberstar.github-pages'
