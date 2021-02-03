@@ -20,6 +20,7 @@ import com.bmuschko.gradle.vagrant.process.ExternalProcessExecutor
 import com.bmuschko.gradle.vagrant.process.ExternalProgram
 import com.bmuschko.gradle.vagrant.process.GDKExternalProcessExecutor
 import com.bmuschko.gradle.vagrant.utils.OsUtils
+import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
@@ -51,7 +52,8 @@ class Vagrant extends DefaultTask {
     @Input
     Map<String, String> environmentVariables = [:]
 
-    @Internal
+    // visible for testing
+    @PackageScope
     ExternalProcessExecutor processExecutor
 
     Vagrant() {
