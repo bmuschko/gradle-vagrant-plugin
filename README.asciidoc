@@ -1,4 +1,4 @@
-= Gradle Vagrant plugin image:https://travis-ci.org/bmuschko/gradle-vagrant-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/bmuschko/gradle-vagrant-plugin"]
+= Gradle Vagrant plugin image:https://github.com/bmuschko/gradle-vagrant-plugin/workflows/Build%20and%20Release%20%5BLinux%5D/badge.svg["Build Status", link="https://github.com/bmuschko/gradle-vagrant-plugin/actions?query=workflow%3A%22Build+and+Release+%5BLinux%5D%22"]
 
 image:https://hyzxph.media.zestyio.com/blog-vagrant.svg[Vagrant Logo, scaledwidth="5%"]
 
