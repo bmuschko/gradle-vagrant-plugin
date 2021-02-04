@@ -20,9 +20,14 @@ import com.bmuschko.gradle.vagrant.process.ExternalProcessExecutor
 import com.bmuschko.gradle.vagrant.process.ExternalProgram
 import com.bmuschko.gradle.vagrant.process.GDKExternalProcessExecutor
 import com.bmuschko.gradle.vagrant.utils.OsUtils
+import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 
 class Vagrant extends DefaultTask {
@@ -37,7 +42,8 @@ class Vagrant extends DefaultTask {
     /**
      * The directory the targeted Vagrant box resides in.
      */
-    @Input
+    @PathSensitive(PathSensitivity.RELATIVE)
+    @InputDirectory
     File boxDir
 
     /**
@@ -46,6 +52,8 @@ class Vagrant extends DefaultTask {
     @Input
     Map<String, String> environmentVariables = [:]
 
+    // visible for testing
+    @PackageScope
     ExternalProcessExecutor processExecutor
 
     Vagrant() {
@@ -66,6 +74,7 @@ class Vagrant extends DefaultTask {
         }
     }
 
+    @Internal
     List<String> getEnvVars() {
         getEnvironmentVariables().size() > 0 ? OsUtils.prepareEnvVars(getEnvironmentVariables()) : null
     }
