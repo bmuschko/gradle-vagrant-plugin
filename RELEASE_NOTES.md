@@ -1,3 +1,8 @@
+### Version 2.2 (February 4, 2021)
+
+* Update plugin for Gradle 7.0 - [Pull Request 16](https://github.com/bmuschko/gradle-vagrant-plugin/pull/16).
+* Upgrade to Gradle Wrapper 6.0.1.
+
 ### Version 2.1 (November 1, 2016)
 
 * Built with 3.x to fix issue with binary backward compatibility - [Issue 10](https://github.com/bmuschko/gradle-vagrant-plugin/issues/10).
