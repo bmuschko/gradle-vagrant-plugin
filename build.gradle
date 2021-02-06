@@ -73,6 +73,7 @@ publishing {
                 def root = asNode()
                 root.appendNode('name', 'Gradle Vagrant plugin')
                 root.appendNode('description', 'Gradle plugin for managing Vagrant boxes.')
+                root.appendNode('url', 'https://github.com/bmuschko/gradle-vagrant-plugin')
                 root.appendNode('inceptionYear', '2013')
 
                 def scm = root.appendNode('scm')
