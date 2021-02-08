@@ -79,6 +79,7 @@ class Vagrant extends DefaultTask {
         getEnvironmentVariables().size() > 0 ? OsUtils.prepareEnvVars(getEnvironmentVariables()) : null
     }
 
+    @Internal
     List<String> getOptions() {
         []
     }

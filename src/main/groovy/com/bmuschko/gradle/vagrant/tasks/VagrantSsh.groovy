@@ -16,6 +16,7 @@
 package com.bmuschko.gradle.vagrant.tasks
 
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 
 class VagrantSsh extends Vagrant {
     /**
@@ -28,6 +29,7 @@ class VagrantSsh extends Vagrant {
         ['ssh']
     }
 
+    @Internal
     @Override
     List<String> getOptions() {
         ['-c', getSshCommand()]
