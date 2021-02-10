@@ -1,3 +1,7 @@
+### Version 2.2.1 (February 9, 2021)
+
+* Mark options as internal - [Pull Request 17](https://github.com/bmuschko/gradle-vagrant-plugin/pull/17).
+
 ### Version 2.2 (February 4, 2021)
 
 * Update plugin for Gradle 7.0 - [Pull Request 16](https://github.com/bmuschko/gradle-vagrant-plugin/pull/16).
