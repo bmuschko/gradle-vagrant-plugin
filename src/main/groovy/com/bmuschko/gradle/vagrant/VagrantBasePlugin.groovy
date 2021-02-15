@@ -41,13 +41,13 @@ class VagrantBasePlugin implements Plugin<Project> {
     }
 
     private void configureVagrantTasks(Project project) {
-        project.tasks.withType(Vagrant) {
-            conventionMapping.boxDir = { getBoxDir(project) }
-            conventionMapping.environmentVariables = { project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables }
+        project.tasks.withType(Vagrant).configureEach {
+            it.boxDir.convention(project.objects.directoryProperty().fileValue(getBoxDir(project)))
+            it.environmentVariables.convention(project.extensions.findByName(EXTENSION_NAME).environmentVariables.variables)
         }
 
-        project.tasks.withType(VagrantUp) {
-            conventionMapping.provider = { getProvider(project) }
+        project.tasks.withType(VagrantUp).configureEach {
+            it.provider.convention(getProvider(project))
         }
     }
 

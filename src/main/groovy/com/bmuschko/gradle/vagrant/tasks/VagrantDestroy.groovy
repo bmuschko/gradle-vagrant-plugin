@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantDestroy extends Vagrant {
+abstract class VagrantDestroy extends Vagrant {
     VagrantDestroy() {
-        commands = ['destroy', '--force']
+        commands.set(['destroy', '--force'])
     }
 }

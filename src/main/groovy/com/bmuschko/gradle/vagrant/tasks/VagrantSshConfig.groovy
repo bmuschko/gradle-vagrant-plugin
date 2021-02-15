@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantSshConfig extends Vagrant {
+abstract class VagrantSshConfig extends Vagrant {
     VagrantSshConfig() {
-        commands = ['ssh-config']
+        commands.add('ssh-config')
     }
 }

@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantStatus extends Vagrant {
+abstract class VagrantStatus extends Vagrant {
     VagrantStatus() {
-        commands = ['status']
+        commands.add('status')
     }
 }

@@ -38,9 +38,8 @@ class VagrantUpSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 1, text: 'failure')
         when:
             Task task = project.task(TASK_NAME, type: VagrantUp) {
-                commands = ['up']
-                boxDir = project.file('mybox')
-                provider = 'vmware_fusion'
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
+                provider.set('vmware_fusion')
             }
 
             task.processExecutor = mockExternalProcessExecutor
@@ -59,9 +58,8 @@ class VagrantUpSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 0, text: 'success')
         when:
             Task task = project.task(TASK_NAME, type: VagrantUp) {
-                commands = ['up']
-                boxDir = project.file('mybox')
-                provider = 'vmware_fusion'
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
+                provider.set('vmware_fusion')
             }
 
             task.processExecutor = mockExternalProcessExecutor
@@ -78,8 +76,7 @@ class VagrantUpSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 0, text: 'success')
         when:
             Task task = project.task(TASK_NAME, type: VagrantUp) {
-                commands = ['up']
-                boxDir = project.file('mybox')
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
             }
 
             task.processExecutor = mockExternalProcessExecutor

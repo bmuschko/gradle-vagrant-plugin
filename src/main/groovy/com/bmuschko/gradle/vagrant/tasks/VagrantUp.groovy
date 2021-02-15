@@ -15,25 +15,21 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 
-class VagrantUp extends Vagrant {
+abstract class VagrantUp extends Vagrant {
+
+    VagrantUp() {
+        commands.add('up')
+        options.addAll(provider.map { ["--provider=$it"] }.orElse(project.provider { [] }))
+    }
+
     /**
      * The backend provider. Defaults to VirtualBox.
      */
     @Input
     @Optional
-    String provider
-
-    VagrantUp() {
-        commands = ['up']
-    }
-
-    @Internal
-    @Override
-    List<String> getOptions() {
-        getProvider() ? ["--provider=${getProvider()}"] : []
-    }
+    abstract Property<String> getProvider()
 }
