@@ -26,7 +26,12 @@ import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.MapProperty
-import org.gradle.api.tasks.*
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.TaskAction
 
 abstract class Vagrant extends DefaultTask {
     static final String TASK_GROUP = 'Vagrant'
@@ -37,7 +42,7 @@ abstract class Vagrant extends DefaultTask {
     @Input
     abstract ListProperty<String> getCommands()
 
-    @Internal
+    @Input
     abstract ListProperty<String> getOptions()
 
     /**
