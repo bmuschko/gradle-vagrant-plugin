@@ -23,34 +23,39 @@ import com.bmuschko.gradle.vagrant.utils.OsUtils
 import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 
-class Vagrant extends DefaultTask {
+abstract class Vagrant extends DefaultTask {
     static final String TASK_GROUP = 'Vagrant'
 
     /**
      * The Vagrant command to run.
      */
     @Input
-    List<String> commands
+    abstract ListProperty<String> getCommands()
+
+    @Input
+    abstract ListProperty<String> getOptions()
 
     /**
      * The directory the targeted Vagrant box resides in.
      */
     @PathSensitive(PathSensitivity.RELATIVE)
     @InputDirectory
-    File boxDir
+    abstract DirectoryProperty getBoxDir()
 
     /**
      * The environment variables passed to Vagrant command.
      */
     @Input
-    Map<String, String> environmentVariables = [:]
+    abstract MapProperty<String, String> getEnvironmentVariables()
 
     // visible for testing
     @PackageScope
@@ -63,24 +68,21 @@ class Vagrant extends DefaultTask {
 
     @TaskAction
     void runCommand() {
-        List<String> vagrantCommands = getCommands()
+        List<String> vagrantCommands = []
+        vagrantCommands.addAll(commands.get())
         vagrantCommands.addAll(0, ExternalProgram.VAGRANT.commandLineArgs)
-        vagrantCommands.addAll(getOptions())
+        vagrantCommands.addAll(options.get())
 
-        ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, getEnvVars(), getBoxDir())
+        ExternalProcessExecutionResult result = processExecutor.execute(vagrantCommands, getEnvVars(), boxDir.get().asFile)
 
-        if(!result.isOK()) {
+        if (!result.isOK()) {
             throw new GradleException('Failed to execute the Vagrant command.')
         }
     }
 
-    @Internal
-    List<String> getEnvVars() {
-        getEnvironmentVariables().size() > 0 ? OsUtils.prepareEnvVars(getEnvironmentVariables()) : null
+    private List<String> getEnvVars() {
+        def userSuppliedEnv = environmentVariables.get()
+        return userSuppliedEnv.size() > 0 ? OsUtils.prepareEnvVars(userSuppliedEnv) : null
     }
 
-    @Internal
-    List<String> getOptions() {
-        []
-    }
 }

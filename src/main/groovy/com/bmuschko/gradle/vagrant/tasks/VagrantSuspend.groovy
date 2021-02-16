@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantSuspend extends Vagrant {
+abstract class VagrantSuspend extends Vagrant {
     VagrantSuspend() {
-        commands = ['suspend']
+        commands.add('suspend')
     }
 }

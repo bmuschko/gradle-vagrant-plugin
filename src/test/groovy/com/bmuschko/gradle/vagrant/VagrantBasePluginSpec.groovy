@@ -31,11 +31,11 @@ class VagrantBasePluginSpec extends Specification {
         project.apply plugin: 'com.bmuschko.vagrant-base'
     }
 
-    def "Box directory defaults to project directory if not set"() {
+    def "Box directory defaults to vagrant directory if not set"() {
         when:
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.boxDir == project.file("vagrant")
+            task.boxDir.get().asFile == project.file("vagrant")
     }
 
     def "Box directory is set to value from extension"() {
@@ -46,7 +46,7 @@ class VagrantBasePluginSpec extends Specification {
 
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.boxDir == project.file('someDir')
+            task.boxDir.get().asFile == project.file('someDir')
     }
 
     def "Box directory is set as property value"() {
@@ -54,14 +54,14 @@ class VagrantBasePluginSpec extends Specification {
             project.ext.boxDir = project.file('other')
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.boxDir == project.file('other')
+            task.boxDir.get().asFile == project.file('other')
     }
 
     def "Provider defaults to VirtualBox if not set"() {
         when:
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.provider == Provider.VIRTUALBOX.name
+            task.provider.get() == Provider.VIRTUALBOX.name
     }
 
     def "Provider is set to value from extension"() {
@@ -72,7 +72,7 @@ class VagrantBasePluginSpec extends Specification {
 
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.provider == 'vmware_fusion'
+            task.provider.get() == 'vmware_fusion'
     }
 
     def "Provider is set as property value"() {
@@ -80,7 +80,7 @@ class VagrantBasePluginSpec extends Specification {
             project.ext.provider = 'vmware_fusion'
             def task = project.task('myCustomVagrantUp', type: VagrantUp)
         then:
-            task.provider == 'vmware_fusion'
+            task.provider.get() == 'vmware_fusion'
     }
 
     @Unroll
@@ -122,28 +122,28 @@ class VagrantBasePluginSpec extends Specification {
         when:
             def task = project.task('vagrantListsBoxes', type: Vagrant) {
                 description = 'Outputs a list of available Vagrant boxes.'
-                commands = ['box', 'list']
+                commands.set(['box', 'list'])
             }
         then:
             project.tasks.findByName('vagrantListsBoxes')
             task.description == 'Outputs a list of available Vagrant boxes.'
-            task.commands == ['box', 'list']
-            task.boxDir == project.file("vagrant")
+            task.commands.get() == ['box', 'list']
+            task.boxDir.get().asFile == project.file("vagrant")
     }
 
     def "Can create task of type Vagrant with custom values"() {
         when:
             def task = project.task('myCustomVagrantUp', type: VagrantUp) {
                 description = 'Brings up Vagrant box.'
-                boxDir = project.file('custom')
-                provider = 'vmware_fusion'
+                boxDir.set(project.layout.projectDirectory.dir('custom'))
+                provider.set('vmware_fusion')
             }
         then:
             project.tasks.findByName('myCustomVagrantUp')
             task.description == 'Brings up Vagrant box.'
-            task.commands == ['up']
-            task.boxDir == project.file('custom')
-            task.provider == 'vmware_fusion'
+            task.commands.get() == ['up']
+            task.boxDir.get().asFile == project.file('custom')
+            task.provider.get() == 'vmware_fusion'
     }
 
     def "Can create multiple tasks of type Vagrant with custom values"() {
@@ -153,23 +153,23 @@ class VagrantBasePluginSpec extends Specification {
 
             def upTask = project.task('fusionBoxUp', type: VagrantUp) {
                 description = 'Brings up Fusion Vagrant box.'
-                boxDir = project.customBoxDir
-                provider = project.fusionProvider
+                boxDir.set(project.customBoxDir)
+                provider.set(project.fusionProvider)
             }
 
             def destroyTask = project.task('fusionBoxDestroy', type: VagrantDestroy) {
                 description = 'Destroys Fusion Vagrant box.'
-                boxDir = project.customBoxDir
+                boxDir.set(project.customBoxDir)
             }
         then:
             project.tasks.findByName('fusionBoxUp')
             upTask.description == 'Brings up Fusion Vagrant box.'
-            upTask.commands == ['up']
-            upTask.boxDir == project.file('custom')
-            upTask.provider == 'vmware_fusion'
+            upTask.commands.get() == ['up']
+            upTask.boxDir.get().asFile == project.file('custom')
+            upTask.provider.get() == 'vmware_fusion'
             project.tasks.findByName('fusionBoxDestroy')
             destroyTask.description == 'Destroys Fusion Vagrant box.'
-            destroyTask.commands == ['destroy', '--force']
-            destroyTask.boxDir == project.file('custom')
+            destroyTask.commands.get() == ['destroy', '--force']
+            destroyTask.boxDir.get().asFile == project.file('custom')
     }
 }

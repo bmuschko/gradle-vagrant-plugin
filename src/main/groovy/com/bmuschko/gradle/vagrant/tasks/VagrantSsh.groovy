@@ -15,23 +15,21 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
 
-class VagrantSsh extends Vagrant {
+abstract class VagrantSsh extends Vagrant {
+
+    VagrantSsh() {
+        commands.add("ssh")
+        options.add("-c")
+        options.add(sshCommand)
+    }
+
     /**
      * The remote SSH to execute.
      */
     @Input
-    String sshCommand
+    abstract Property<String> getSshCommand()
 
-    List<String> getCommands() {
-        ['ssh']
-    }
-
-    @Internal
-    @Override
-    List<String> getOptions() {
-        ['-c', getSshCommand()]
-    }
 }

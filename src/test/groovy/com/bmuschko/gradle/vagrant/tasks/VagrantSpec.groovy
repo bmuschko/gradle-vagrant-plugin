@@ -38,8 +38,8 @@ class VagrantSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 1, text: 'failure')
         when:
             Task task = project.task(TASK_NAME, type: Vagrant) {
-                commands = ['box', 'list']
-                boxDir = project.file('mybox')
+                commands.set(['box', 'list'])
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
             }
 
             task.processExecutor = mockExternalProcessExecutor
@@ -58,8 +58,8 @@ class VagrantSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 0, text: 'success')
         when:
             Task task = project.task(TASK_NAME, type: Vagrant) {
-                commands = ['box', 'list']
-                boxDir = project.file('mybox')
+                commands.set(['box', 'list'])
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
             }
 
             task.processExecutor = mockExternalProcessExecutor

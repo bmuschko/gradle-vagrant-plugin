@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantResume extends Vagrant {
+abstract class VagrantResume extends Vagrant {
     VagrantResume() {
-        commands = ['resume']
+        commands.add('resume')
     }
 }

@@ -38,8 +38,8 @@ class VagrantSshSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 1, text: 'failure')
         when:
             Task task = project.task(TASK_NAME, type: VagrantSsh) {
-                sshCommand = "echo 'hello world'"
-                boxDir = project.file('mybox')
+                sshCommand.set("echo 'hello world'")
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
             }
 
             task.processExecutor = mockExternalProcessExecutor
@@ -58,8 +58,8 @@ class VagrantSshSpec extends Specification {
             ExternalProcessExecutionResult result = new ExternalProcessExecutionResult(exitValue: 0, text: 'success')
         when:
             Task task = project.task(TASK_NAME, type: VagrantSsh) {
-                sshCommand = "echo 'hello world'"
-                boxDir = project.file('mybox')
+                sshCommand.set("echo 'hello world'")
+                boxDir.set(project.layout.projectDirectory.dir('mybox'))
             }
 
             task.processExecutor = mockExternalProcessExecutor

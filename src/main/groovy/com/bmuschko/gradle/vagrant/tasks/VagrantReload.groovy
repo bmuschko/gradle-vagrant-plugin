@@ -15,8 +15,8 @@
  */
 package com.bmuschko.gradle.vagrant.tasks
 
-class VagrantReload extends Vagrant {
+abstract class VagrantReload extends Vagrant {
     VagrantReload() {
-        commands = ['reload']
+        commands.add('reload')
     }
 }
