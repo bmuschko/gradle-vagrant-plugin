@@ -1,3 +1,8 @@
+### Version 3.0.0 (February 16, 2021)
+
+* Use provider API to configure tasks - [Pull Request 18](https://github.com/bmuschko/gradle-vagrant-plugin/pull/18).
+* Don't print environment - [Pull Request 20](https://github.com/bmuschko/gradle-vagrant-plugin/pull/20).
+
 ### Version 2.2.1 (February 9, 2021)
 
 * Mark options as internal - [Pull Request 17](https://github.com/bmuschko/gradle-vagrant-plugin/pull/17).
