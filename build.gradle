@@ -9,6 +9,7 @@ buildscript {
     }
 }
 
+apply plugin: 'build-scan'
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
@@ -143,5 +144,15 @@ githubPages {
         from(groovydoc.outputs.files) {
             into 'docs/groovydoc'
         }
+    }
+}
+
+buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
+
+    if (System.getenv("CI")) {
+        publishAlways()
+        tag("CI")
     }
 }
