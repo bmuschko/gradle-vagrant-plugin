@@ -12,7 +12,7 @@ To use the plugin, include in your build script:
 ----
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
