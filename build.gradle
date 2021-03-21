@@ -9,7 +9,6 @@ buildscript {
     }
 }
 
-apply plugin: 'build-scan'
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
